@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 echo "[`date +"%T"`] Secallzones starting... "
 ZONES=`pdnsutil list-all-zones | grep -v "All zonecount"`
