@@ -16,7 +16,7 @@ ENV PDNSCONF_LAUNCH="gmysql" \
 ADD https://repo.powerdns.com/FD380FBB-pub.asc /etc/apt/trusted.gpg.d/powerdns-key.asc
 
 ADD pdns.list /etc/apt/sources.list.d/pdns.list
-ADD pdns.preference /etc/apt/preferences.d/pdns 
+ADD pdns.preference /etc/apt/preferences.d/pdns
 
 RUN chmod 644 /etc/apt/trusted.gpg.d/powerdns-key.asc && \
     apt-get update && \
