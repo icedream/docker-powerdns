@@ -1,6 +1,7 @@
 FROM debian:bullseye
 
 MAINTAINER Fabio Rauber <fabiorauber@gmail.com>
+MAINTAINER Carl Kittelberger <icedream@icedream.pw>
 
 ENV PDNSCONF_LAUNCH="gmysql" \
     PDNSCONF_GMYSQL_HOST="mysql" \
