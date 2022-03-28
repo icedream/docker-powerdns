@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bullseye-slim
 
 MAINTAINER Fabio Rauber <fabiorauber@gmail.com>
 MAINTAINER Carl Kittelberger <icedream@icedream.pw>
