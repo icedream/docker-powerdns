@@ -2,13 +2,14 @@
 
 mkdir -p /etc/powerdns/pdns.d
 
-PDNSVARS=`echo ${!PDNSCONF_*}`
+PDNSVARS="${!PDNSCONF_*}"
 touch /etc/powerdns/pdns.conf
 
 for var in $PDNSVARS; do
-  varname=`echo ${var#"PDNSCONF_"} | awk '{print tolower($0)}' | sed 's/_/-/g'`
-  value=`echo ${!var} | sed 's/^$\(.*\)/\1/'`
-  echo "$varname=$value" >> /etc/powerdns/pdns.conf
+  varname="$(awk '{print tolower($0)}' <<<"${var#"PDNSCONF_"}")"
+  varname="${varname//_/-}"
+  value="${!var}"
+  echo "$varname=$value" >>/etc/powerdns/pdns.conf
 done
 
 if [ -n "${PDNSCONF_API_KEY:-}" ]; then
