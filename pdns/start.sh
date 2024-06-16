@@ -11,7 +11,7 @@ for var in $PDNSVARS; do
   echo "$varname=$value" >> /etc/powerdns/pdns.conf
 done
 
-if [ ! -z $PDNSCONF_API_KEY ]; then
+if [ -n "${PDNSCONF_API_KEY:-}" ]; then
   cat >/etc/powerdns/pdns.d/api.conf <<EOF
 api=yes
 webserver=yes
