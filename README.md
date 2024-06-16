@@ -77,6 +77,16 @@ docker build --build-arg "PDNS_AUTH_VERSION=4.8" -t localhost/pdns:4.8 pdns
 docker build --build-arg "PDNS_AUTH_VERSION=4.7" -t localhost/pdns:4.7 pdns
 ```
 
+## Different Debian version
+
+You can specify which tag of the Debian base image to use for building the Docker image via the `DEBIAN_TAG` (default `12`) and `DEBIAN_TAG_SUFFIX` (default `-slim`) build arg:
+
+```
+docker build --build-arg "DEBIAN_TAG=bookworm" -t localhost/pdns:4.8-debian12-slim pdns
+docker build --build-arg "DEBIAN_TAG=11" -t localhost/pdns:4.7-debian11-slim pdns
+docker build --build-arg "DEBIAN_TAG=11" --build-arg "DEBIAN_TAG_SUFFIX=" -t localhost/pdns:4.7-debian11 pdns
+```
+
 ## Contributing
 
 Pull requests welcome!
