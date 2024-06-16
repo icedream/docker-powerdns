@@ -3,24 +3,6 @@ PowerDNS docker container, based on Debian Bookworm.
 
 [![Build Status](https://drone.interlegis.leg.br/api/badges/SEIT/docker-powerdns/status.svg)](https://drone.interlegis.leg.br/SEIT/docker-powerdns)
 
-## Requirements
-
-### Docker
-
-To use this image you need docker daemon installed. Run the following commands as root:
-
-```
-curl -ssl https://get.docker.com | sh
-```
-
-### Docker-compose
-
-Docker-compose is desirable (run as root as well):
-
-```
-sudo curl -L "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-```
-
 ## Docker-compose Example
 
 Save the following snippet as docker-compose.yaml in any folder you like, or clone this repository, which contains a sample docker-compose.yml.
