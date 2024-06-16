@@ -1,25 +1,5 @@
 # docker-powerdns
-PowerDNS docker container, based on Debian Buster.
-
-[![Build Status](https://drone.interlegis.leg.br/api/badges/SEIT/docker-powerdns/status.svg)](https://drone.interlegis.leg.br/SEIT/docker-powerdns)
-
-## Requirements
-
-### Docker
-
-To use this image you need docker daemon installed. Run the following commands as root:
-
-```
-curl -ssl https://get.docker.com | sh
-```
-
-### Docker-compose
-
-Docker-compose is desirable (run as root as well):
-
-```
-sudo curl -L "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-```
+PowerDNS docker container, based on Debian Bookworm.
 
 ## Docker-compose Example
 
@@ -68,6 +48,43 @@ See <https://hub.docker.com/r/bitnami/mariadb>
 ```
 cd <folder where docker-compose.yaml is>
 docker-compose up -d
+```
+
+## Building
+
+### MySQL
+
+To build the MySQL-compatible version of this image, simply leave all build arguments at their default.
+
+```
+docker build pdns
+```
+
+### PostgreSQL
+
+To build the PostgreSQL-compatible version of this image, override the backend packages to be installed like this:
+
+```
+docker build --build-arg "PDNS_BACKEND_PACKAGES=pdns-backend-pgsql postgresql-client" --build-arg PDNSCONF_LAUNCH=pgsql pdns
+```
+
+## Different PowerDNS Auth versions
+
+You can specify which version/branch of PowerDNS Auth to use for building the Docker image via the `PDNS_AUTH_VERSION` build arg:
+
+```
+docker build --build-arg "PDNS_AUTH_VERSION=4.8" -t localhost/pdns:4.8 pdns
+docker build --build-arg "PDNS_AUTH_VERSION=4.7" -t localhost/pdns:4.7 pdns
+```
+
+## Different Debian version
+
+You can specify which tag of the Debian base image to use for building the Docker image via the `DEBIAN_TAG` (default `12`) and `DEBIAN_TAG_SUFFIX` (default `-slim`) build arg:
+
+```
+docker build --build-arg "DEBIAN_TAG=bookworm" -t localhost/pdns:4.8-debian12-slim pdns
+docker build --build-arg "DEBIAN_TAG=11" -t localhost/pdns:4.7-debian11-slim pdns
+docker build --build-arg "DEBIAN_TAG=11" --build-arg "DEBIAN_TAG_SUFFIX=" -t localhost/pdns:4.7-debian11 pdns
 ```
 
 ## Contributing

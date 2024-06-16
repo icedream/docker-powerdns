@@ -1,26 +1,25 @@
-FROM debian:bullseye
+ARG DEBIAN_TAG=12
+ARG DEBIAN_TAG_SUFFIX=-slim
+FROM debian:${DEBIAN_TAG}${DEBIAN_TAG_SUFFIX}
 
-MAINTAINER Fabio Rauber <fabiorauber@gmail.com>
+LABEL org.opencontainers.image.authors="Carl Kittelberger <icedream@icedream.pw>"
 
-ENV PDNSCONF_LAUNCH="gmysql" \
-    PDNSCONF_GMYSQL_HOST="mysql" \
-    PDNSCONF_GMYSQL_USER='' \
-    PDNSCONF_GMYSQL_DBNAME='' \
-    PDNSCONF_GMYSQL_PASSWORD='' \
+ARG PDNSCONF_LAUNCH="gmysql"
+ENV PDNSCONF_LAUNCH="${PDNSCONF_LAUNCH}" \
     PDNSCONF_INCLUDE_DIR="/etc/powerdns/pdns.d" \
-    PDNSCONF_GMYSQL_DNSSEC="yes" \
-    PDNSCONF_API_KEY="" \
     SECALLZONES_CRONJOB="no"
 
 ADD https://repo.powerdns.com/FD380FBB-pub.asc /etc/apt/trusted.gpg.d/powerdns-key.asc
 
-ADD pdns.list /etc/apt/sources.list.d/pdns.list
-ADD pdns.preference /etc/apt/preferences.d/pdns 
+ARG PDNS_AUTH_VERSION=4.9
+RUN echo "deb [arch=amd64] http://repo.powerdns.com/debian $(. /etc/os-release && printf "%s" "$VERSION_CODENAME")-auth-$(printf "%s" "$PDNS_AUTH_VERSION" | tr -d '.') main" >/etc/apt/sources.list.d/pdns.list
+ADD pdns.preference /etc/apt/preferences.d/pdns
 
+ARG PDNS_BACKEND_PACKAGES="pdns-backend-mysql mariadb-client"
 RUN chmod 644 /etc/apt/trusted.gpg.d/powerdns-key.asc && \
     apt-get update && \
     echo "path-include /usr/share/doc/*/*.sql" >> /etc/dpkg/dpkg.cfg.d/docker && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -q -y pdns-server pdns-backend-mysql mariadb-client && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y pdns-server ${PDNS_BACKEND_PACKAGES} && \
     rm /etc/powerdns/pdns.d/*.conf && rm /etc/powerdns/*.conf && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends cron curl jq busybox && \
     rm /etc/cron.daily/* && \
@@ -36,3 +35,4 @@ ADD secallzones.sh /usr/local/bin/secallzones.sh
 RUN chmod a+x /usr/local/bin/*.sh
 
 CMD ["/usr/local/bin/start.sh"]
+STOPSIGNAL SIGINT
