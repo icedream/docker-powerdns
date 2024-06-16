@@ -1,8 +1,6 @@
 # docker-powerdns
 PowerDNS docker container, based on Debian Bookworm.
 
-[![Build Status](https://drone.interlegis.leg.br/api/badges/SEIT/docker-powerdns/status.svg)](https://drone.interlegis.leg.br/SEIT/docker-powerdns)
-
 ## Docker-compose Example
 
 Save the following snippet as docker-compose.yaml in any folder you like, or clone this repository, which contains a sample docker-compose.yml.
