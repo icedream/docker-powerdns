@@ -2,14 +2,9 @@ FROM debian:bookworm-slim
 
 LABEL org.opencontainers.image.authors="Carl Kittelberger <icedream@icedream.pw>"
 
-ENV PDNSCONF_LAUNCH="gmysql" \
-    PDNSCONF_GMYSQL_HOST="mysql" \
-    PDNSCONF_GMYSQL_USER='' \
-    PDNSCONF_GMYSQL_DBNAME='' \
-    PDNSCONF_GMYSQL_PASSWORD='' \
+ARG PDNSCONF_LAUNCH="gmysql"
+ENV PDNSCONF_LAUNCH="${PDNSCONF_LAUNCH}" \
     PDNSCONF_INCLUDE_DIR="/etc/powerdns/pdns.d" \
-    PDNSCONF_GMYSQL_DNSSEC="yes" \
-    PDNSCONF_API_KEY="" \
     SECALLZONES_CRONJOB="no"
 
 ADD https://repo.powerdns.com/FD380FBB-pub.asc /etc/apt/trusted.gpg.d/powerdns-key.asc

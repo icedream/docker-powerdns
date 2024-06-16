@@ -70,6 +70,24 @@ cd <folder where docker-compose.yaml is>
 docker-compose up -d
 ```
 
+## Building
+
+### MySQL
+
+To build the MySQL-compatible version of this image, simply leave all build arguments at their default.
+
+```
+docker build pdns
+```
+
+### PostgreSQL
+
+To build the PostgreSQL-compatible version of this image, override the backend packages to be installed like this:
+
+```
+docker build --build-arg "PDNS_BACKEND_PACKAGES=pdns-backend-pgsql postgresql-client" --build-arg PDNSCONF_LAUNCH=pgsql pdns
+```
+
 ## Contributing
 
 Pull requests welcome!

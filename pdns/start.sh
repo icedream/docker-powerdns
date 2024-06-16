@@ -63,6 +63,39 @@ if [ -n "$PDNSCONF_GMYSQL_HOST" ]; then
   else
     echo "WARNING: mysql command missing, not waiting for configured MySQL server to be up." >&2
   fi
+elif [ -n "$PDNSCONF_GPGSQL_HOST" ]; then
+  if command -v psql >/dev/null; then
+    if [ -z "$PDNSCONF_GPGSQL_DBNAME" ]; then
+      echo "ERROR: Missing PostgreSQL database name." >&2
+      exit 1
+    fi
+    psqlcheck() {
+      export PGPASSWORD="${PDNSCONF_GPGSQL_PASSWORD:-}"
+      export PGDATABASE="${PDNSCONF_GPGSQL_DBNAME:-}"
+      export PGUSER="${PDNSCONF_GPGSQL_USER:-}"
+      export PGHOST="${PDNSCONF_GPGSQL_HOST}"
+      export PGPORT="${PDNSCONF_GPGSQL_PORT:-5432}"
+
+      COUNTER=20
+      until psql -w -l >/dev/null 2>&1; do
+        echo "WARNING: PostgreSQL still not up. Trying again..." >&2
+        sleep 10
+        COUNTER=$((COUNTER - 1))
+        if [ $COUNTER -lt 1 ]; then
+          echo "ERROR: PostgreSQL connection timed out. Aborting." >&2
+          exit 1
+        fi
+      done
+
+      if ! psql -w -c 'SELECT 1 FROM domains' >/dev/null 2>&1; then
+        echo "Database not yet provisioned. Importing PowerDNS schema..." >&2
+        psql -w </usr/share/doc/pdns-backend-pgsql/schema.pgsql.sql && echo "Import done."
+      fi
+    }
+    psqlcheck
+  else
+    echo "WARNING: psql command missing, not waiting for configured PostgreSQL server to be up." >&2
+  fi
 else
   echo "ERROR: a backend must be configured via environment." >&2
   exit 1
