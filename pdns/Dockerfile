@@ -32,3 +32,4 @@ ADD secallzones.sh /usr/local/bin/secallzones.sh
 RUN chmod a+x /usr/local/bin/*.sh
 
 CMD ["/usr/local/bin/start.sh"]
+STOPSIGNAL SIGINT

@@ -118,7 +118,12 @@ fi
 echo "Starting PowerDNS..." >&2
 
 if [ "$#" -gt 0 ]; then
-  exec /usr/sbin/pdns_server "$@"
+  /usr/sbin/pdns_server "$@" &
 else
-  exec /usr/sbin/pdns_server --daemon=no --guardian=no --control-console --loglevel=9
+  /usr/sbin/pdns_server --daemon=no --guardian=no --loglevel=9 &
 fi
+pdns_pid=$!
+
+trap 'pdns_control quit || true; wait $pdns_pid' TERM INT EXIT
+
+wait $pdns_pid
