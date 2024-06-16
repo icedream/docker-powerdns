@@ -23,6 +23,10 @@ fi
 
 # Wait for configured MySQL server to be up
 if [ -n "$PDNSCONF_GMYSQL_HOST" ]; then
+  if [ -z "$PDNSCONF_GMYSQL_DBNAME" ]; then
+    echo "ERROR: Missing MySQL database name." >&2
+    exit 1
+  fi
   if command -v mysql >/dev/null; then
     mysqlcheck() {
       # Wait for MySQL to be available...
@@ -30,7 +34,7 @@ if [ -n "$PDNSCONF_GMYSQL_HOST" ]; then
       until mysql -h "$PDNSCONF_GMYSQL_HOST" -u "$PDNSCONF_GMYSQL_USER" -p"$PDNSCONF_GMYSQL_PASSWORD" -e "show databases" 2>/dev/null; do
         echo "WARNING: MySQL still not up. Trying again..." >&2
         sleep 10
-        ((COUNTER--))
+        COUNTER=$((COUNTER - 1))
         if [ $COUNTER -lt 1 ]; then
           echo "ERROR: MySQL connection timed out. Aborting." >&2
           exit 1
