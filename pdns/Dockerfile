@@ -9,7 +9,8 @@ ENV PDNSCONF_LAUNCH="${PDNSCONF_LAUNCH}" \
 
 ADD https://repo.powerdns.com/FD380FBB-pub.asc /etc/apt/trusted.gpg.d/powerdns-key.asc
 
-ADD pdns.list /etc/apt/sources.list.d/pdns.list
+ARG PDNS_AUTH_VERSION=4.9
+RUN echo "deb [arch=amd64] http://repo.powerdns.com/debian bookworm-auth-$(printf "%s" "$PDNS_AUTH_VERSION" | tr -d '.') main" >/etc/apt/sources.list.d/pdns.list
 ADD pdns.preference /etc/apt/preferences.d/pdns
 
 ARG PDNS_BACKEND_PACKAGES="pdns-backend-mysql mariadb-client"

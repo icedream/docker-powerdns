@@ -68,6 +68,15 @@ To build the PostgreSQL-compatible version of this image, override the backend p
 docker build --build-arg "PDNS_BACKEND_PACKAGES=pdns-backend-pgsql postgresql-client" --build-arg PDNSCONF_LAUNCH=pgsql pdns
 ```
 
+## Different PowerDNS Auth versions
+
+You can specify which version/branch of PowerDNS Auth to use for building the Docker image via the `PDNS_AUTH_VERSION` build arg:
+
+```
+docker build --build-arg "PDNS_AUTH_VERSION=4.8" -t localhost/pdns:4.8 pdns
+docker build --build-arg "PDNS_AUTH_VERSION=4.7" -t localhost/pdns:4.7 pdns
+```
+
 ## Contributing
 
 Pull requests welcome!
