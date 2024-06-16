@@ -30,7 +30,7 @@ if [ -n "$PDNSCONF_GMYSQL_HOST" ]; then
       until mysql -h "$PDNSCONF_GMYSQL_HOST" -u "$PDNSCONF_GMYSQL_USER" -p"$PDNSCONF_GMYSQL_PASSWORD" -e "show databases" 2>/dev/null; do
         echo "WARNING: MySQL still not up. Trying again..."
         sleep 10
-        let COUNTER-=1
+        ((COUNTER--))
         if [ $COUNTER -lt 1 ]; then
           echo "ERROR: MySQL connection timed out. Aborting."
           exit 1
