@@ -37,6 +37,9 @@ if [ -n "$PDNSCONF_GMYSQL_HOST" ]; then
     if [ -n "${PDNSCONF_GMYSQL_PASSWORD:-}" ]; then
       mysql_conn_args+=("-p$PDNSCONF_GMYSQL_PASSWORD")
     fi
+    if [ -n "${PDNSCONF_GMYSQL_PORT:-}" ]; then
+      mysql_conn_args+=("-P$PDNSCONF_GMYSQL_PORT")
+    fi
     mysqlcheck() {
       # Wait for MySQL to be available...
       COUNTER=20
