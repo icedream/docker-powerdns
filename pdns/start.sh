@@ -28,18 +28,18 @@ if [ -n "$PDNSCONF_GMYSQL_HOST" ]; then
       # Wait for MySQL to be available...
       COUNTER=20
       until mysql -h "$PDNSCONF_GMYSQL_HOST" -u "$PDNSCONF_GMYSQL_USER" -p"$PDNSCONF_GMYSQL_PASSWORD" -e "show databases" 2>/dev/null; do
-        echo "WARNING: MySQL still not up. Trying again..."
+        echo "WARNING: MySQL still not up. Trying again..." >&2
         sleep 10
         ((COUNTER--))
         if [ $COUNTER -lt 1 ]; then
-          echo "ERROR: MySQL connection timed out. Aborting."
+          echo "ERROR: MySQL connection timed out. Aborting." >&2
           exit 1
         fi
       done
 
       count=$(mysql -h "$PDNSCONF_GMYSQL_HOST" -u "$PDNSCONF_GMYSQL_USER" -p"$PDNSCONF_GMYSQL_PASSWORD" -e "select count(*) from information_schema.tables where table_type='BASE TABLE' and table_schema='$PDNSCONF_GMYSQL_DBNAME';" | tail -1)
       if [ "$count" == "0" ]; then
-        echo "Database is empty. Importing PowerDNS schema..."
+        echo "Database is empty. Importing PowerDNS schema..." >&2
         mysql -h "$PDNSCONF_GMYSQL_HOST" -u "$PDNSCONF_GMYSQL_USER" -p"$PDNSCONF_GMYSQL_PASSWORD" "$PDNSCONF_GMYSQL_DBNAME" </usr/share/doc/pdns-backend-mysql/schema.mysql.sql && echo "Import done."
       fi
     }
@@ -66,7 +66,7 @@ fi
 
 # Start PowerDNS
 # same as /etc/init.d/pdns monitor
-echo "Starting PowerDNS..."
+echo "Starting PowerDNS..." >&2
 
 if [ "$#" -gt 0 ]; then
   exec /usr/sbin/pdns_server "$@"
