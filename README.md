@@ -1,5 +1,5 @@
 # docker-powerdns
-PowerDNS docker container, based on Debian Bullseye.
+PowerDNS docker container, based on Debian Bookworm.
 
 [![Build Status](https://drone.interlegis.leg.br/api/badges/SEIT/docker-powerdns/status.svg)](https://drone.interlegis.leg.br/SEIT/docker-powerdns)
 
