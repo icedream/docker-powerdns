@@ -1,6 +1,6 @@
 FROM debian:bookworm-slim
 
-MAINTAINER Carl Kittelberger <icedream@icedream.pw>
+LABEL org.opencontainers.image.authors="Carl Kittelberger <icedream@icedream.pw>"
 
 ENV PDNSCONF_LAUNCH="gmysql" \
     PDNSCONF_GMYSQL_HOST="mysql" \
