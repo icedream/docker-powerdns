@@ -1,6 +1,5 @@
 FROM debian:bookworm-slim
 
-MAINTAINER Fabio Rauber <fabiorauber@gmail.com>
 MAINTAINER Carl Kittelberger <icedream@icedream.pw>
 
 ENV PDNSCONF_LAUNCH="gmysql" \
