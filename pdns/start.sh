@@ -103,7 +103,7 @@ else
 fi
 
 if [ "$SECALLZONES_CRONJOB" == "yes" ]; then
-  cat > /etc/crontab <<EOF
+  cat >/etc/crontab <<EOF
 PDNSCONF_API_KEY=$PDNSCONF_API_KEY
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
