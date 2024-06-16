@@ -18,10 +18,11 @@ ADD https://repo.powerdns.com/FD380FBB-pub.asc /etc/apt/trusted.gpg.d/powerdns-k
 ADD pdns.list /etc/apt/sources.list.d/pdns.list
 ADD pdns.preference /etc/apt/preferences.d/pdns
 
+ARG PDNS_BACKEND_PACKAGES="pdns-backend-mysql mariadb-client"
 RUN chmod 644 /etc/apt/trusted.gpg.d/powerdns-key.asc && \
     apt-get update && \
     echo "path-include /usr/share/doc/*/*.sql" >> /etc/dpkg/dpkg.cfg.d/docker && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -q -y pdns-server pdns-backend-mysql mariadb-client && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y pdns-server ${PDNS_BACKEND_PACKAGES} && \
     rm /etc/powerdns/pdns.d/*.conf && rm /etc/powerdns/*.conf && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends cron curl jq busybox && \
     rm /etc/cron.daily/* && \
