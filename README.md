@@ -1,32 +1,31 @@
 # docker-powerdns
 PowerDNS docker container, based on Debian Trixie.
 
-## Docker-compose Example
+## Docker Compose Example
 
 Save the following snippet as docker-compose.yaml in any folder you like, or clone this repository, which contains a sample docker-compose.yml.
 
 ```
-pdns:
-  image: ghcr.io/icedream/powerdns:latest-mysql
-  links:
-    - "mysql:mysql"
-  ports:
-    - "53:53"
-    - "53:53/udp"
-    - "8088:8081"
-  environment:
-    - PDNSCONF_API_KEY=a_strong_api_key
-    - PDNSCONF_GMYSQL_HOST=mysql
-    - PDNSCONF_GMYSQL_USER=pdns
-    - PDNSCONF_GMYSQL_DBNAME=pdns
-    - PDNSCONF_GMYSQL_PASSWORD=pdnspw
-mysql:
-  image: mysql
-  environment:
-    - MYSQL_ROOT_PASSWORD=mysqlrootpw
-    - MYSQL_DATABASE=pdns
-    - MYSQL_USER=pdns
-    - MYSQL_PASSWORD=pdnspw
+services:
+  pdns:
+    image: ghcr.io/icedream/powerdns:latest-mysql
+    ports:
+      - "53:53"
+      - "53:53/udp"
+      - "8088:8081"
+    environment:
+      - PDNSCONF_API_KEY=a_strong_api_key
+      - PDNSCONF_GMYSQL_HOST=mysql
+      - PDNSCONF_GMYSQL_USER=pdns
+      - PDNSCONF_GMYSQL_DBNAME=pdns
+      - PDNSCONF_GMYSQL_PASSWORD=pdnspw
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysqlrootpw
+      - MYSQL_DATABASE=pdns
+      - MYSQL_USER=pdns
+      - MYSQL_PASSWORD=pdnspw
 ```
 
 For PostgreSQL, use image `ghcr.io/icedream/powerdns:latest-pgsql` instead.
@@ -50,7 +49,7 @@ See <https://hub.docker.com/r/bitnami/mariadb>
 
 ```
 cd <folder where docker-compose.yaml is>
-docker-compose up -d
+docker compose up -d
 ```
 
 ## Building
