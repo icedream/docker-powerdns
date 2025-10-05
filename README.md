@@ -7,7 +7,7 @@ Save the following snippet as docker-compose.yaml in any folder you like, or clo
 
 ```
 pdns:
-  image: interlegis/powerdns:4.6.2
+  image: ghcr.io/icedream/powerdns:latest-mysql
   links:
     - "mysql:mysql"
   ports:
@@ -27,6 +27,8 @@ mysql:
     - MYSQL_USER=pdns
     - MYSQL_PASSWORD=pdnspw
 ```
+
+For PostgreSQL, use image `ghcr.io/icedream/powerdns:latest-pgsql` instead.
 
 ## Environment Variables Supported
 
