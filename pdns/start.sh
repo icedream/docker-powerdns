@@ -28,10 +28,13 @@ if [ -n "$PDNSCONF_GMYSQL_HOST" ]; then
     echo "ERROR: Missing MySQL database name." >&2
     exit 1
   fi
-  if command -v mysql >/dev/null; then
+  if command -v mariadb >/dev/null; then
     mysql_conn_args=(
       "-h$PDNSCONF_GMYSQL_HOST"
     )
+    if [ "${PDNSCONF_GMYSQL_SSL:-}" != "yes" ]; then
+      mysql_conn_args+=(--skip_ssl)
+    fi
     if [ -n "${PDNSCONF_GMYSQL_USER:-}" ]; then
       mysql_conn_args+=("-u$PDNSCONF_GMYSQL_USER")
     fi
@@ -44,7 +47,7 @@ if [ -n "$PDNSCONF_GMYSQL_HOST" ]; then
     mysqlcheck() {
       # Wait for MySQL to be available...
       COUNTER=20
-      until mysql "${mysql_conn_args[@]}" -e "show databases" 2>/dev/null; do
+      until mariadb "${mysql_conn_args[@]}" -e "show databases" 2>/dev/null; do
         echo "WARNING: MySQL still not up. Trying again..." >&2
         sleep 10
         COUNTER=$((COUNTER - 1))

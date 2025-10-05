@@ -1,5 +1,5 @@
 # docker-powerdns
-PowerDNS docker container, based on Debian Bookworm.
+PowerDNS docker container, based on Debian Trixie.
 
 ## Docker-compose Example
 
