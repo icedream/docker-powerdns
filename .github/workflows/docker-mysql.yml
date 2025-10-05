@@ -1,0 +1,21 @@
+name: mysql Docker image build
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'ci'
+      - '[0-9]+'
+      - '[0-9]+.[0-9]+'
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  docker:
+    uses: ./.github/workflows/docker.yml
+    with:
+      suffix: -mysql
+      is_default_flavor: false
+    secrets:
+      dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+      dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
