@@ -54,6 +54,10 @@ docker compose up -d
 
 ## Building
 
+The Docker image can be build straight from source. Variations of it can be built by setting build arguments.
+
+Please check [`pdns/Dockerfile`](pdns/Dockerfile) for the default values.
+
 ### MySQL
 
 To build the MySQL-compatible version of this image, simply leave all build arguments at their default.
@@ -67,7 +71,7 @@ docker build pdns
 To build the PostgreSQL-compatible version of this image, override the backend packages to be installed like this:
 
 ```
-docker build --build-arg "PDNS_BACKEND_PACKAGES=pdns-backend-pgsql postgresql-client" --build-arg PDNSCONF_LAUNCH=pgsql pdns
+docker build --build-arg "PDNS_BACKEND_PACKAGES=pdns-backend-pgsql postgresql-client" --build-arg PDNSCONF_LAUNCH=gpgsql pdns
 ```
 
 ## Different PowerDNS Auth versions
@@ -76,17 +80,16 @@ You can specify which version/branch of PowerDNS Auth to use for building the Do
 
 ```
 docker build --build-arg "PDNS_AUTH_VERSION=4.8" -t localhost/pdns:4.8 pdns
-docker build --build-arg "PDNS_AUTH_VERSION=4.7" -t localhost/pdns:4.7 pdns
 ```
 
 ## Different Debian version
 
-You can specify which tag of the Debian base image to use for building the Docker image via the `DEBIAN_TAG` (default `12`) and `DEBIAN_TAG_SUFFIX` (default `-slim`) build arg:
+You can specify which tag of the Debian base image to use for building the Docker image via the `DEBIAN_TAG` and `DEBIAN_TAG_SUFFIX` build arg:
 
 ```
-docker build --build-arg "DEBIAN_TAG=bookworm" -t localhost/pdns:4.8-debian12-slim pdns
-docker build --build-arg "DEBIAN_TAG=11" -t localhost/pdns:4.7-debian11-slim pdns
-docker build --build-arg "DEBIAN_TAG=11" --build-arg "DEBIAN_TAG_SUFFIX=" -t localhost/pdns:4.7-debian11 pdns
+docker build --build-arg "DEBIAN_TAG=bullseye" -t localhost/pdns:4.9-debian12-slim pdns
+docker build --build-arg "DEBIAN_TAG=12" -t localhost/pdns:4.8-debian12-slim pdns
+docker build --build-arg "DEBIAN_TAG=12" --build-arg "DEBIAN_TAG_SUFFIX=" -t localhost/pdns:4.8-debian12 pdns
 ```
 
 ## Contributing
